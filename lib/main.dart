@@ -1,122 +1,238 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const LecturasRoldan());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class LecturasRoldan extends StatelessWidget {
+  const LecturasRoldan({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Colors.black,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const EscribirScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class BadgeWidget extends StatelessWidget {
+  final String text;
+  const BadgeWidget({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.white10,
+        borderRadius: BorderRadius.circular(4),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 10, color: Colors.white70),
+      ),
+    );
+  }
+}
+
+class OptionRowWidget extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final Color iconColor;
+  final Color textColor;
+  final bool hasNew;
+
+  const OptionRowWidget({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.iconColor,
+    required this.textColor,
+    this.hasNew = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        children: [
+          Icon(icon, color: iconColor, size: 28),
+          const SizedBox(width: 15),
+          Text(
+            title,
+            style: TextStyle(
+                color: textColor, fontSize: 16, fontWeight: FontWeight.w400),
+          ),
+          if (hasNew) ...[
+            const SizedBox(width: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(4)),
+              child: const Text('NUEVO',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 9,
+                      fontWeight: FontWeight.bold)),
             ),
           ],
-        ),
+          const Spacer(),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class EscribirScreen extends StatelessWidget {
+  const EscribirScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // --------------------------------------------------------
+    // CAMBIA ESTOS LINKS POR LOS QUE TÚ QUIERAS DE LA WEB
+    // --------------------------------------------------------
+    const String urlPerfil = 'https://raw.githubusercontent.com/RoldanOrtega/Act10_6I_Mi_Pagina/refs/heads/main/SISI.JPG';
+    const String urlPortadaHistoria = 'https://raw.githubusercontent.com/RoldanOrtega/Imagenes-Act9/refs/heads/main/l.JPG';
+    // --------------------------------------------------------
+
+    const Color rosaClaro = Color.fromARGB(255, 255, 182, 193);
+    const Color azulClaro = Color(0xFF80D8FF);
+    const Color azulOscuro = Color(0xFF0D47A1);
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0,
+        title: const Text(
+          'Escribir',
+          style: TextStyle(
+            color: azulOscuro,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
+        actions: [
+          const Center(
+            child: Text(
+              '@Spaderz',
+              style: TextStyle(color: azulClaro, fontWeight: FontWeight.w500),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: CircleAvatar(
+              radius: 15,
+              backgroundImage: NetworkImage(urlPerfil), // Imagen de Perfil
+            ),
+          ),
+        ],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: const Color(0xFF1A1A1A),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.white24),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    urlPortadaHistoria, // Imagen de la Historia (Diferente)
+                    width: 70,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(width: 15),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Seguir escribiendo',
+                          style: TextStyle(color: Colors.grey, fontSize: 12)),
+                      const SizedBox(height: 5),
+                      const Text(
+                        'La Daga sin Nombre',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
+                      const SizedBox(height: 10),
+                      const Row(
+                        children: [
+                          BadgeWidget(text: '3 parte publicada'),
+                          SizedBox(width: 8),
+                          BadgeWidget(text: '0 borradores'),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          OptionRowWidget(
+              icon: Icons.menu_book,
+              title: 'Editar otra historia',
+              iconColor: rosaClaro,
+              textColor: azulClaro),
+          const Divider(color: Colors.white, thickness: 0.5), // Línea Blanca
+          OptionRowWidget(
+              icon: Icons.add_box_outlined,
+              title: 'Crear una historia nueva',
+              iconColor: rosaClaro,
+              textColor: azulClaro),
+          const Divider(color: Colors.white, thickness: 0.5),
+          OptionRowWidget(
+              icon: Icons.dashboard_customize_outlined,
+              title: 'Series',
+              iconColor: rosaClaro,
+              textColor: azulClaro,
+              hasNew: true),
+          const Divider(color: Colors.white, thickness: 0.5),
+          OptionRowWidget(
+              icon: Icons.import_contacts,
+              title: 'Recursos útiles para escritores',
+              iconColor: rosaClaro,
+              textColor: azulClaro),
+          const Divider(color: Colors.white, thickness: 0.5),
+          OptionRowWidget(
+              icon: Icons.stars_outlined,
+              title: 'Programas en Lectores Roldan',
+              iconColor: rosaClaro,
+              textColor: azulClaro),
+          const Divider(color: Colors.white, thickness: 0.5),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.black,
+        selectedItemColor: rosaClaro,
+        unselectedItemColor: Colors.grey,
+        currentIndex: 3,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.edit_note, size: 30), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications_none), label: ''),
+        ],
+      ),
     );
   }
 }

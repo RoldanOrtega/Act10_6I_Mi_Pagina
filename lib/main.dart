@@ -211,7 +211,7 @@ class EscribirScreen extends StatelessWidget {
           const Divider(color: Colors.white, thickness: 0.5),
           OptionRowWidget(
               icon: Icons.stars_outlined,
-              title: 'Programas & oportunidades en Lectores Roldan',
+              title: 'Programas en Lectores Roldan',
               iconColor: rosaClaro,
               textColor: azulClaro),
           const Divider(color: Colors.white, thickness: 0.5),

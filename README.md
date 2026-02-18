@@ -1,16 +1,4 @@
-# myapp
+# Act10_6I_Mi_Pagina****
+<img width="767" height="866" alt="image" src="https://github.com/user-attachments/assets/6c0b379b-9905-4c1b-a38c-e95d816a7e49" />
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img width="724" height="898" alt="image" src="https://github.com/user-attachments/assets/85fdad2d-0ddb-43f9-8c01-f9e005536fbe" />
